@@ -15,6 +15,7 @@ public class IosCommunicationNotificationPlugin: NSObject, FlutterPlugin {
     public func onClickNotification(_ userInfo: [AnyHashable : Any]) {
         if (self.flutterChannel != nil) {
             self.flutterChannel?.invokeMethod("onClick", arguments: userInfo)
+            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         } else {
             // Save to local storage - for get initial payload
             let defaults = UserDefaults.standard
