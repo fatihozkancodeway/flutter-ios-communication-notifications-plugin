@@ -16,6 +16,13 @@ public class IosCommunicationNotificationPlugin: NSObject, FlutterPlugin {
         if (self.flutterChannel != nil) {
             self.flutterChannel?.invokeMethod("onClick", arguments: userInfo)
             UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            if #available(iOS 16.0, *) {
+                UNUserNotificationCenter.current().setBadgeCount(0)
+            } else {
+                DispatchQueue.main.sync {
+                    UIApplication.shared.applicationIconBadgeNumber = 0
+                }
+            }
         } else {
             // Save to local storage - for get initial payload
             let defaults = UserDefaults.standard

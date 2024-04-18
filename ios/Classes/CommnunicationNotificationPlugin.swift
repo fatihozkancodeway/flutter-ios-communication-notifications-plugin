@@ -63,13 +63,19 @@ class CommunicationNotificationPlugin {
 
             var content = UNMutableNotificationContent()
             
+            DispatchQueue.main.sync {
+                UIApplication.shared.applicationIconBadgeNumber += 1
+            }
+            
             content.title = notificationInfo.senderName
             content.subtitle = ""
             content.body = notificationInfo.content
             content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm"))
             content.categoryIdentifier = identifier
             content.userInfo = ["data": notificationInfo.value]
-            
+            content.badge = UIApplication.shared.applicationIconBadgeNumber as NSNumber
+            content.threadIdentifier = "genesia"
+
             var personNameComponents = PersonNameComponents()
             personNameComponents.nickname = notificationInfo.senderName
             
